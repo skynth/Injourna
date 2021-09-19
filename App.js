@@ -1,6 +1,6 @@
 
 import React, {useState} from 'react';
-import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, Image } from 'react-native';
+import { KeyboardAvoidingView, StyleSheet, Text, View, TextInput, TouchableOpacity, Keyboard, ScrollView, ImageBackground,Image } from 'react-native';
 import Task from './components/Task';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,26 +8,18 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ceil, color } from 'react-native-reanimated';
 import qs from 'qs';
 import { Linking } from 'react-native';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+function JournalScreen({ navigation }) {
 
-
-function HomeScreen({ navigation }) {
-  const [task, setTask] = useState();
-  const [taskItems, setTaskItems] = useState([]);
-  
-
-  const handleAddTask = () => {
-    Keyboard.dismiss();
-    setTaskItems([...taskItems, task])
-    setTask(null);
-  }
-
-  const completeTask = (index) => {
-    let itemsCopy = [...taskItems];
-    itemsCopy.splice(index, 1);
-    setTaskItems(itemsCopy)
-  }
-
+    /**<View style={styles.imageContainer}>
+  <ImageBackground
+    style={styles.coverImage}
+    source={require('./Pencil_Mountain_10.png')}>
+    <View style={styles.textView}>
+      <Text style={styles.imageText}>HAPPY MARRIED LIFE</Text>
+    </View>
+  </ImageBackground>*/
   return (
     <View style={styles.container}>
       {/* Added this scroll view to enable scrolling when list gets longer than the page */}
@@ -40,10 +32,32 @@ function HomeScreen({ navigation }) {
 
       <View style={{ flex: 1, alignItems: 'left' }}>
         <Text style={styles.hiMessage}>👋 Hi, how are you today?</Text>
-        <Text style={styles.sectionTitle1}>Mood Tracker</Text>
+        <Text style={styles.sectionTitle1}>Mood Tracker: 65% weekly average</Text>
+        
+
         <Image style={styles.pencilMountain} source={require('./Pencil_Mountain_10.png')}/>
         <Text style={styles.sectionTitle2}>Journal Entries</Text>
         <View style={styles.items}>
+
+        <View style={styles.journalItem}>
+        <Text style={styles.journalItemText}>{"Day 4"}</Text>
+        <Text style={styles.percentText}>{"😃 83%"}</Text>
+        </View>
+
+        <View style={styles.journalItem}>
+        <Text style={styles.journalItemText}>{"Day 3"}</Text>
+        <Text style={styles.percentText}>{"😃 83%"}</Text>
+        </View>
+
+        <View style={styles.journalItem}>
+        <Text style={styles.journalItemText}>{"Day 2"}</Text>
+        <Text style={styles.percentText}>{"😃 83%"}</Text>
+        </View>
+
+        <View style={styles.journalItem}>
+        <Text style={styles.journalItemText}>{"Day 1"}</Text>
+        <Text style={styles.percentText}>{"😃 83%"}</Text>
+        </View>
 
         </View>
       </View>
@@ -115,11 +129,11 @@ const Tab = createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
-function HomeStackScreen() {
+function JournalStackScreen() {
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false }}  >
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
-        <Stack.Screen name="JournalEntry" component={JournalEntry} options={{headerShown: false} } />
+    <Stack.Navigator initialRouteName="Journal" screenOptions={{headerShown: false }}  >
+        <Stack.Screen name="Journal" component={JournalScreen} options={{headerShown: false}} />
+        <Stack.Screen name="JournalEntry" component={JournalEntry} options={{headerShown: false } } />
     </Stack.Navigator>
   );
 }
@@ -128,8 +142,18 @@ export default function App() {
   return (
     <NavigationContainer>
     <Tab.Navigator>
-      <Tab.Screen name="Home" component={HomeStackScreen} options={{headerShown: false}}/>
-      <Tab.Screen name="Share Feelings" component={ShareFeelingsScreen} options={{headerShown: false}}/>
+      <Tab.Screen name="Journal" component={JournalStackScreen} options={{
+        headerShown: false,
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="book" color={color} size={26} />
+        ),
+      }}/>
+      <Tab.Screen name="Share" component={ShareFeelingsScreen} options={{
+        headerShown: false,
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name="share" color={color} size={26} />
+        ),
+      }}/>
     </Tab.Navigator>      
     </NavigationContainer>
   );
@@ -166,15 +190,37 @@ export async function sendEmail(to, subject, body, options = {}) {
 
 
 const styles = StyleSheet.create({
+
+  /*imageContainer: {
+    flex: 1,
+  },
+  coverImage: {
+    width: '100%',
+    height: 200,
+  },
+  textView: {
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  imageText: {
+    fontSize: 20,
+    color: 'white',
+    fontWeight: 'bold',
+  },*/
   
   pencilMountain: {
     marginLeft: 30,
     marginTop: 20,
     resizeMode: 'cover',
-    width: 350,
-    height: 200,
+    width: 375,
+    height: 215,
     aspectRatio: 1644/1013,
-    borderRadius: 25
+    borderRadius: 25,
   },
   container: {
     flex: 1,
@@ -198,19 +244,25 @@ const styles = StyleSheet.create({
     color: '#4C4776',
     fontSize: 20,
     fontWeight: 'normal',
-    textAlign: 'left'
+    textAlign: 'left',
+    fontWeight: 'bold'
   },
   sectionTitle2: {
     marginLeft: 30,
-    marginTop: 20,
+    marginTop: 40,
+    marginBottom: -10,
     color: '#4C4776',
     fontSize: 20,
     fontWeight: 'normal',
-    textAlign: 'left'
+    textAlign: 'left',
+    fontWeight: 'bold'
   },
   items: {
     marginTop: 30,
+    marginLeft: 30,
+    marginRight: 30
   },
+  
 
   //Share Feelings
   shareTitle: {
@@ -278,6 +330,28 @@ const styles = StyleSheet.create({
     bottom: 30,
     right: 25,
     zIndex: 10
+  },
+  journalItem: {
+    padding: 30,
+    backgroundColor: '#E6E3FF',
+    width: 350,
+    borderRadius: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 20,
+  },
+  journalItemText: {
+    marginTop: 8,
+    fontSize: 30,
+    fontWeight: 'normal',
+    color: '#4C4776',
+  },
+  percentText: {
+    marginTop: 8,
+    fontSize: 30,
+    fontWeight: 'normal',
+    color: '#0BB86F',
   },
 
   item: {
