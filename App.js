@@ -44,36 +44,14 @@ function HomeScreen({ navigation }) {
         <Image style={styles.pencilMountain} source={require('./Pencil_Mountain_10.png')}/>
         <Text style={styles.sectionTitle2}>Journal Entries</Text>
         <View style={styles.items}>
-          {/* This is where the tasks will go! */}
-          {
-            taskItems.map((item, index) => {
-              return (
-               <TouchableOpacity key={index}  onPress={() => completeTask(index)}>
-                  <Task text={item} /> 
-                </TouchableOpacity>
-              )
-            })
-          }
+
         </View>
       </View>
         
       </ScrollView>
-
-      {/* Write a task */}
-      {/* Uses a keyboard avoiding view which ensures the keyboard does not cover the items on screen */}
-      <KeyboardAvoidingView 
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={styles.writeTaskWrapper}
-      >
-        <TextInput style={styles.input} placeholder={'Write a task'} value={task} onChangeText={text => setTask(text)} />
         <TouchableOpacity onPress={() => navigation.navigate('JournalEntry')}>
-
-          <View style={styles.addWrapper}>
-            <Text style={styles.addText}>+</Text>
-          </View>
-        </TouchableOpacity>
-      </KeyboardAvoidingView>
-      
+            <Image style={styles.addButton} source={require('./add.png')}/>
+          </TouchableOpacity>  
     </View>
   );
 }
@@ -83,17 +61,17 @@ function ShareFeelingsScreen() {
   return (
 
     //dctors and parents
-    <View style={{ flex: 1, marginTop: 40, alignItems: 'center' }}>
+    <View style={{ flex: 1, alignItems: 'center', backgroundColor: '#FFFFFF'}}>
             <Text style={styles.shareTitle}>{"Share How You're Feeling"}</Text>
       <View style={styles.item}>
         <View vert>
         <Text style={styles.itemText}>{"With Caretaker"}</Text>
         <Text style={styles.bodyText}>{"Help them understand your needs."}</Text>
         <TouchableOpacity style={styles.button} onPress={() => {sendEmail(
-    'skyngthowhing@gmail.com',
-       'Can we get there?',
-    'Elon, here’s one destination you guys should consider [link]',
- { cc: 'liwentran@gmail.com' }
+    'yourdoctor@gmail.com',
+       'My mood',
+    'Information',
+ { cc: 'relevantpoeple@gmail.com' }
 ).then(() => {
     console.log('Your message was successfully sent!');
 });}}>
@@ -125,7 +103,7 @@ function ShareFeelingsScreen() {
 }
 function JournalEntry() {
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#FFFFFF' }}>
       <Text>Journal Entry</Text>
 
 
@@ -139,10 +117,8 @@ const Stack = createNativeStackNavigator();
 
 function HomeStackScreen() {
   return (
-    <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false}}  screenOptions={{
-      cardStyle: { backgroundColor: '#fff' }
-  }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
+    <Stack.Navigator initialRouteName="Home" screenOptions={{headerShown: false }}  >
+        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
         <Stack.Screen name="JournalEntry" component={JournalEntry} options={{headerShown: false} } />
     </Stack.Navigator>
   );
@@ -202,7 +178,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#E8EAED',
+    backgroundColor: '#FFFFFF',
   },
   tasksWrapper: {
     paddingTop: 80,
@@ -241,7 +217,7 @@ const styles = StyleSheet.create({
     color: "#4C4776",
     fontWeight: 'bold',
     fontSize: 28,
-    marginTop: 30,
+    marginTop: 70,
     textAlign: 'left',
     marginBottom: 30
 
@@ -295,6 +271,15 @@ const styles = StyleSheet.create({
     color: '#C17878',
     width: 210
   },
+  addButton: {
+    width: 75,
+    height: 75,
+    position: 'absolute',
+    bottom: 30,
+    right: 25,
+    zIndex: 10
+  },
+
   item: {
     padding: 10,
     backgroundColor: '#F5EBDD',
@@ -344,6 +329,8 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: '#FFF',
     borderRadius: 60,
+    marginLeft: 300,
+    marginBottom: 50,
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: '#C0C0C0',

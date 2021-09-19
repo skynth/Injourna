@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19000,
+  "expoServerNgrokUrl": "https://9r-bwb.anonymous.injourna.exp.direct",
+  "packagerNgrokUrl": "https://packager.9r-bwb.anonymous.injourna.exp.direct",
+  "ngrokPid": 31280,
+  "packagerPid": null,
+  "webpackServerPort": null
+}
